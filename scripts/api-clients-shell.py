@@ -11,7 +11,9 @@ Optional:
   --api-token         API key (needed if wanting to use the API)
   --search-api-url    Override the implicit SearchAPI URL
   --search-api-token  SearchAPI key (needed if wanting to use the Search API)
-  -rw --read-write          Access to API calls that write data as well as read
+  --cdp-api-url       Override the implicit Central Digtial Platform API URL
+  --cdp-api-token     Override for the Central Digtial Platform API key
+  -rw --read-write    Access to API calls that write data as well as read
 
 Example:
   ./scripts/api-clients-shell.py
@@ -27,11 +29,11 @@ import IPython
 from IPython.terminal.prompts import Prompts, Token
 from traitlets.config import Config
 
-from dmapiclient import DataAPIClient, SearchAPIClient
+from dmapiclient import DataAPIClient, SearchAPIClient, CentralDigitalPlatformAPIClient
 
 sys.path.insert(0, '.')
 from dmscripts.helpers.updated_by_helpers import get_user
-from dmutils.env_helpers import get_api_endpoint_from_stage
+from dmutils.env_helpers import get_api_endpoint_from_stage, get_cdp_api_endpoint_from_stage
 
 
 def DMEnvironmentPrompt(stage: str, read_write: bool = False):
@@ -76,11 +78,39 @@ if __name__ == '__main__':
                             'local', 'development', 'preview', 'pre-production',
                         ])
 
-    parser.add_argument('--api-url', help='Override the implicit API URL', type=str)
-    parser.add_argument('--api-token', help='API key (needed if wanting to use the API)', type=str)
+    parser.add_argument(
+        '--api-url',
+        help='Override the implicit API URL',
+        type=str
+    )
+    parser.add_argument(
+        '--api-token',
+        help='API key (needed if wanting to use the API)',
+        type=str
+    )
 
-    parser.add_argument('--search-api-url', help='Override the implicit SearchAPI URL', type=str)
-    parser.add_argument('--search-api-token', help='SearchAPI key (needed if wanting to use the Search API)', type=str)
+    parser.add_argument(
+        '--search-api-url',
+        help='Override the implicit SearchAPI URL',
+        type=str
+    )
+    parser.add_argument(
+        '--search-api-token',
+        help='SearchAPI key (needed if wanting to use the Search API)',
+        type=str
+    )
+
+    parser.add_argument(
+        '--cdp-api-url',
+        help='Override the implicit Central Digtial Platform API URL',
+        type=str
+    )
+    parser.add_argument(
+        '--cdp-api-token',
+        help='Override for the Central Digtial Platform API key (don\'t decrypt from dm-credentials)',
+        type=str
+    )
+
     parser.add_argument('--read-write', '-rw',
                         help='Access to API calls that write data as well as read', action='store_true')
 
@@ -94,9 +124,10 @@ if __name__ == '__main__':
     print('Setting API tokens...')
     api_token = 'myToken' if stage.lower() == 'local' else args.api_token
     search_api_token = 'myToken' if stage.lower() == 'local' else args.search_api_token
+    cdp_api_token = args.cdp_api_token
 
-    if not api_token and not search_api_token:
-        print("Must supply one of --api-token or --search-api-token to access the client")
+    if not api_token and not search_api_token and not cdp_api_token:
+        print("Must supply one of --api-token, --search-api-token or --cdp-api-token to access the client")
         sys.exit(1)
 
     print('Creating clients...')
@@ -116,7 +147,10 @@ if __name__ == '__main__':
 
         user_ns["data"] = data
 
+        print('Use \'data\' for Data API client')
+
     if search_api_token:
+        print('Creating Search API client...')
         search = SearchAPIClient(
             base_url=args.search_api_url or get_api_endpoint_from_stage(stage, app='search-api'),
             auth_token=search_api_token,
@@ -124,6 +158,19 @@ if __name__ == '__main__':
         )
 
         user_ns["search"] = search
+
+        print('Use \'search\' for Search API client')
+
+    if cdp_api_token:
+        print('Creating Central Digital Platform API client...')
+        cdp = CentralDigitalPlatformAPIClient(
+            base_url=args.cdp_api_url or get_cdp_api_endpoint_from_stage(stage),
+            api_key=cdp_api_token,
+        )
+
+        user_ns["cdp"] = cdp
+
+        print('Use \'cdp\' for Central Digital Platform API client')
 
     ipython_config = Config()
     ipython_config.TerminalInteractiveShell.prompts_class = DMEnvironmentPrompt(stage, args.read_write)

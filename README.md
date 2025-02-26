@@ -3,7 +3,7 @@
 ![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)
 
 
-This project contains a script for using the API and Search API clients in a IPython shell
+This project contains a script for using the API, Search API and Central Digital Platform API clients in a IPython shell
 
 ## Setup
 
@@ -21,7 +21,7 @@ invoke requirements-dev
 
 ## API Client script
 
-To use the scripts you will need the API and/or Search API tokens.
+To use the scripts you will need the API, Search API and/or Central Digital Platform API tokens.
 Speak to a developer who will be able to share these with you.
 
 To run the API client script, first you need to enter the  virtual environment with:
@@ -43,7 +43,7 @@ In [1]:
 You can then use the API client to make calls to the API, for example:
 ```
 In [1]: data.get_framework('g-cloud-14')
-Out[1]: 
+Out[1]:
 {
   'frameworks': {
     'id': 17,
@@ -74,10 +74,16 @@ To get the Search API client pass in the the search api token (`--search-api-tok
 ./scripts/api-clients-shell.py development --api-token=theToken --search-api-token=theToken
 ```
 
+To get the Central Digital Platform API client pass in the the cdp api token (`--cdp-api-token`):
+```
+./scripts/api-clients-shell.py development --api-token=theToken --cdp-api-token=theToken
+```
+
 To list all the possible API client methods and their documentation, you can run the `api-clients-shell-list.py` script:
 ```
 ./scripts/api-clients-shell-list.py data
 ./scripts/api-clients-shell-list.py search
+./scripts/api-clients-shell-list.py cdp
 ```
 
 ## Updating Python dependencies
