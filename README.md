@@ -76,8 +76,8 @@ To get the Search API client pass in the the search api token (`--search-api-tok
 
 To list all the possible API client methods and their documentation, you can run the `api-clients-shell-list.py` script:
 ```
-./scripts/api-clients-shell.py data
-./scripts/api-clients-shell.py search
+./scripts/api-clients-shell-list.py data
+./scripts/api-clients-shell-list.py search
 ```
 
 ## Updating Python dependencies
