@@ -9,6 +9,7 @@ Example:
   ./scripts/api-clients-shell.py
   ./scripts/api-clients-shell.py data
   ./scripts/api-clients-shell.py search
+  ./scripts/api-clients-shell.py cdp
 """
 
 import argparse
@@ -16,7 +17,7 @@ import sys
 import pydoc
 
 
-from dmapiclient import DataAPIClient, SearchAPIClient
+from dmapiclient import DataAPIClient, SearchAPIClient, CentralDigitalPlatformAPIClient
 
 sys.path.insert(0, '.')
 
@@ -52,7 +53,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('client', default='data', help='The client you want to check the methods for', nargs='?',
                         choices=[
-                            'data', 'search', 'preview', 'pre-production',
+                            'data', 'search', 'cdp',
                         ])
 
     args = parser.parse_args()
@@ -66,3 +67,7 @@ if __name__ == '__main__':
     if client == 'search':
         print('Listing SearchAPIClient methods...')
         list_methods(SearchAPIClient)
+
+    if client == 'cdp':
+        print('Listing CentralDigitalPlatformAPIClient methods...')
+        list_methods(CentralDigitalPlatformAPIClient)
