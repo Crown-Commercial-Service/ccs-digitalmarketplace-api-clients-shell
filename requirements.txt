@@ -64,7 +64,7 @@ govuk-country-register==0.5.0
     # via ccs-digitalmarketplace-utils
 idna==3.10
     # via requests
-ipython==8.32.0
+ipython==8.33.0
     # via -r requirements.in
 ipython-genutils==0.2.0
     # via -r requirements.in
