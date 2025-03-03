@@ -20,7 +20,7 @@ ccs-digitalmarketplace-apiclient==31.3.0
     # via
     #   -r requirements.in
     #   ccs-digitalmarketplace-utils
-ccs-digitalmarketplace-utils==72.3.0
+ccs-digitalmarketplace-utils==72.4.0
     # via -r requirements.in
 certifi==2024.8.30
     # via requests
