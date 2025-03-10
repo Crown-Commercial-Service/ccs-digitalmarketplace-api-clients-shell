@@ -64,10 +64,12 @@ govuk-country-register==0.5.0
     # via ccs-digitalmarketplace-utils
 idna==3.10
     # via requests
-ipython==8.32.0
+ipython==9.0.2
     # via -r requirements.in
 ipython-genutils==0.2.0
     # via -r requirements.in
+ipython-pygments-lexers==1.1.1
+    # via ipython
 itsdangerous==2.2.0
     # via
     #   flask
@@ -108,7 +110,9 @@ pure-eval==0.2.3
 pycparser==2.22
     # via cffi
 pygments==2.18.0
-    # via ipython
+    # via
+    #   ipython
+    #   ipython-pygments-lexers
 pyjwt==2.10.1
     # via notifications-python-client
 python-dateutil==2.9.0.post0
